@@ -1,6 +1,6 @@
 Sub stock_market_analyzer()
 
-' Assign variables
+' Assign variables for each desired result
 Dim ticker As String
 Dim year_open As Double
 Dim year_close As Double
@@ -11,15 +11,26 @@ Dim last_row As Long
 Dim row_counter As Double
 Dim results_counter As Double
 
-' Iterate through each worksheet
+' Iterate through each worksheet in workbook
 
 For Each ws In ActiveWorkbook.Worksheets
 
     ' Label the desired fields
     ws.Cells(1, 9).Value = "Ticker"
+    ws.Cells(1, 9).Font.Bold = True
     ws.Cells(1, 10).Value = "Yearly Change"
+    ws.Cells(1, 10).Font.Bold = True
     ws.Cells(1, 11).Value = "Percent Change"
+    ws.Cells(1, 11).Font.Bold = True
     ws.Cells(1, 12).Value = "Total Stock volume"
+    ws.Cells(1, 12).Font.Bold = True
+
+    ws.Cells(2, 15).Value = "Greatest % Increase"
+    ws.Cells(2, 15).Font.Bold = True
+    ws.Cells(3, 15).Value = "Greatest % Decrease"
+    ws.Cells(3, 15).Font.Bold = True
+    ws.Cells(4, 15).Value = "Greatest Total Volume"
+    ws.Cells(4, 15).Font.Bold = True
 
     ' Values start at row 2
     results_counter = 2
@@ -93,13 +104,59 @@ For Each ws In ActiveWorkbook.Worksheets
         ' Reset the value to 0
         volume = 0
 
-        ' Increase the results counter by 1 for the next loop
+        ' Increase the results counter by 1 for the next iteration
         results_counter = results_counter + 1
 
     End If
 
 Next row_counter
+    
+    ' Label the desired fields
+
+    
+    'Assigns values for comparison
+    ws.Cells(2, 17).Value = 0
+    ws.Cells(3, 17).Value = 0
+    ws.Cells(4, 17).Value = 0
+
+    For results_counter = 2 To last_row
+
+        If ws.Cells(results_counter, 11).Value > ws.Cells(2, 17).Value Then
+
+            ws.Cells(2, 17).Value = ws.Cells(results_counter, 11).Value
+            ws.Cells(2, 16).Value = ws.Cells(results_counter, 9).Value
+            
+        End If
+
+        'If the percent change is lower than the value in cell (3,17)
+        If ws.Cells(results_counter, 11).Value < ws.Cells(3, 17).Value Then
+
+            'Store the new percent change value in cell (3,17)
+            ws.Cells(3, 17).Value = ws.Cells(results_counter, 11).Value
+
+            'Find the lowest value and add it the results cell
+            ws.Cells(3, 16).Value = ws.Cells(results_counter, 9).Value
+        
+        End If
+
+        ' If the volume is greater than the value in cell (4, 17)
+         If ws.Cells(results_counter, 12).Value > ws.Cells(4, 17).Value Then
+
+            ' Store the larger volume in cell (4,17)
+            ws.Cells(4, 17).Value = ws.Cells(results_counter, 12).Value
+
+            ' Find the highest volume and add it in the results cell
+            ws.Cells(4, 16).Value = ws.Cells(results_counter, 9).Value
+            
+        End If
+       
+        Next results_counter
+        
+        'Format the results table
+        ws.Cells(2, 17).NumberFormat = "0.00%"
+        ws.Cells(3, 17).NumberFormat = "0.00%"
 
 Next ws
 
 End Sub
+
