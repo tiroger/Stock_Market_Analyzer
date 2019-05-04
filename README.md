@@ -21,3 +21,6 @@ Part 2 | Moderate
 
 * Have conditional formatting that will highlight positive change in green and negative change in red.
 
+Part 3 | Moderate
+
+* The solution will return the stock with the "Greatest % increase", "Greatest % Decrease" and "Greatest total volume".
