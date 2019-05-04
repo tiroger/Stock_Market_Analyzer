@@ -21,6 +21,3 @@ Part 2 | Moderate
 
 * Have conditional formatting that will highlight positive change in green and negative change in red.
 
-![2014 Data Screenshot] (https://github.com/tiroger/Stock_Market_Analyzer/blob/master/2014%20Data.png)
-
-
