@@ -1,6 +1,6 @@
 Sub stock_market_analyzer()
 
-' Assign variables for each desired result
+'Assign variables for each desired result
 Dim ticker As String
 Dim year_open As Double
 Dim year_close As Double
@@ -11,11 +11,11 @@ Dim last_row As Long
 Dim row_counter As Double
 Dim results_counter As Double
 
-' Iterate through each worksheet in workbook
+'Iterate through each worksheet in workbook
 
 For Each ws In ActiveWorkbook.Worksheets
 
-    ' Label the desired fields
+    'Label the desired fields
     ws.Cells(1, 9).Value = "Ticker"
     ws.Cells(1, 9).Font.Bold = True
     ws.Cells(1, 10).Value = "Yearly Change"
@@ -32,33 +32,33 @@ For Each ws In ActiveWorkbook.Worksheets
     ws.Cells(4, 15).Value = "Greatest Total Volume"
     ws.Cells(4, 15).Font.Bold = True
 
-    ' Values start at row 2
+    'Values start at row 2
     results_counter = 2
 
-    ' Find the last row
+    'Find the last row
     last_row = ws.Cells(Rows.Count, 1).End(xlUp).Row
 
-    ' ws.Cells(2, 13).Value = last_row
+    'ws.Cells(2, 13).Value = last_row
     volume = 0
 
     'Find the opening value
     year_open = ws.Cells(2, 3).Value
 
-    ' We iterate from row 2 to the last row
+    'We iterate from row 2 to the last row
     For row_counter = 2 To last_row
 
         volume = volume + ws.Cells(row_counter, 7).Value
 
-        ' We compare the current ticker to the one above
+        'We compare the current ticker to the one above
         If (ws.Cells(row_counter - 1, 1).Value = ws.Cells(row_counter, 1).Value And ws.Cells(row_counter + 1, 1).Value <> ws.Cells(row_counter, 1).Value) Then
 
-            ' If the current ticker is the same as above and different than the one below
+            'If the current ticker is the same as above and different than the one below
             year_close = ws.Cells(row_counter, 6).Value
 
-            ' Calculate the change between opening and closing values
+            'Calculate the change between opening and closing values
             year_change = year_close - year_open
 
-            ' Account for divisions by 0
+            'Account for divisions by 0
             If year_open = 0 And year_close <> 0 Then
                 percent_change = year_close / year_close
             
@@ -70,10 +70,10 @@ For Each ws In ActiveWorkbook.Worksheets
             
             End If
 
-        ' We move to the next year open
+        'We move to the next year open
         year_open = ws.Cells(row_counter + 1, 3).Value
 
-        ' Show the year change for each ticker
+        'Add the year change for each ticker
         ws.Cells(results_counter, 10).Value = year_change
 
         'Conditional formattting for change: if > 0, green; if < 0, red
@@ -85,33 +85,33 @@ For Each ws In ActiveWorkbook.Worksheets
 
         End If
 
-        ' Show the percent change for each ticker
+        'Add the percent change for each ticker
         ws.Cells(results_counter, 11).Value = percent_change
         ws.Cells(results_counter, 11).NumberFormat = "0.00%"
 
     End If
 
-    ' Show the total volume for each ticker
-    ' If the current ticker is the same as above and different than the one below
+    'Add the total volume for each ticker
+    'If the current ticker is the same as above and different than the one below
     If (ws.Cells(row_counter + 1, 1).Value <> ws.Cells(row_counter, 1).Value) Then
 
-        ' Show ticker
+        'Add ticker
         ws.Cells(results_counter, 9).Value = ws.Cells(row_counter, 1).Value
 
-        ' Show total volume
+        'Add total volume
         ws.Cells(results_counter, 12).Value = volume
 
-        ' Reset the value to 0
+        'Reset the value to 0
         volume = 0
 
-        ' Increase the results counter by 1 for the next iteration
+        'Increase the results counter by 1 for the next iteration
         results_counter = results_counter + 1
 
     End If
 
 Next row_counter
     
-    ' Label the desired fields
+    'Label the desired fields
 
     
     'Assigns values for comparison
@@ -139,13 +139,13 @@ Next row_counter
         
         End If
 
-        ' If the volume is greater than the value in cell (4, 17)
+        'If the volume is greater than the value in cell (4, 17)
          If ws.Cells(results_counter, 12).Value > ws.Cells(4, 17).Value Then
 
-            ' Store the larger volume in cell (4,17)
+            'Store the larger volume in cell (4,17)
             ws.Cells(4, 17).Value = ws.Cells(results_counter, 12).Value
 
-            ' Find the highest volume and add it in the results cell
+            'Find the highest volume and add it in the results cell
             ws.Cells(4, 16).Value = ws.Cells(results_counter, 9).Value
             
         End If
@@ -159,4 +159,3 @@ Next row_counter
 Next ws
 
 End Sub
-
