@@ -1,4 +1,4 @@
-# Stock_Market_Analyzer
+# Stock Market Analyzer Script
 VBA Script to analyze stock market data
 
 Part 1 | Easy
